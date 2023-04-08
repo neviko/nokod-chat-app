@@ -17,7 +17,9 @@ const Message = ({
       }}
     >
       <div style={styles.text}>{text}</div>
-      <div style={styles.sender}>sent by: {sender}</div>
+      <div style={styles.sender}>
+        sent at {timestamp} by: {sender}
+      </div>
     </div>
   );
 };

@@ -5,7 +5,6 @@ import { Message } from "./common/Message";
 
 const PORT = process.env.PORT || 5000;
 
-//TODO: understand the http library
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
@@ -27,14 +26,14 @@ io.on("connection", (socket) => {
     socket.join(roomName);
   });
 
-  // socket.on("fetch-rooms", function () {
-  //   console.log("fetched rooms called", io.sockets.adapter.rooms);
-
-  //   // socket.emit("rooms", { rooms: Object.keys(io.sockets.adapter.rooms) });
-  // });
-
   socket.on("new-message", (msg: Message) => {
     socket.to(msg.roomId).emit("message-from-server", msg);
+    console.log(msg);
+  });
+
+  socket.on("fetch-rooms", function () {
+    console.log("fetched rooms called", io.sockets.adapter.rooms);
+    socket.emit("rooms", { rooms: Object.keys(io.sockets.adapter.rooms) });
   });
 });
 

@@ -17,11 +17,15 @@ const Chat = ({ socket, room, username }) => {
 
   const handleSendClick = async () => {
     if (!sendMessage) return;
+    if (!room) return;
 
     const message = {
       text: sendMessage,
       roomId: room,
-      timestamp: Date.now(),
+      timestamp: new Date().toLocaleTimeString("en-GB", {
+        hour: "numeric",
+        minute: "numeric",
+      }),
       sender: username,
     };
     try {
@@ -43,14 +47,15 @@ const Chat = ({ socket, room, username }) => {
             bgColor={message.sender === username ? "pink" : "aqua"}
             isShiftRight={message.sender === username}
             sender={message.sender}
+            timestamp={message.timestamp}
           />
         );
       })}
 
       <div style={styles.footerInput}>
         <Input
-          title="tes"
-          placeholder="sdsd"
+          title="Message"
+          placeholder="Type a Message"
           value={sendMessage}
           onChange={(e) => setSendMessage(e.target.value)}
         />
@@ -69,14 +74,10 @@ const styles = {
     minHeight: "500px",
   },
   footerInput: {
-    // bottom: 0,
     height: "25px",
     width: "100%",
-    // flexGrow: 1,
     alignItems: "flex-start",
     alignSelf: "flex-end",
-    // marginBottom: "20px",
-    // mSrginBottom: 36,
   },
 };
 
